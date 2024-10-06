@@ -11,8 +11,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.config.EnableWebFlux;
 import org.una.programmingiio.academichub.client.GreetingClient;
-
-
+import reactor.core.publisher.Flux;
 
 
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class, DataSourceTransactionManagerAutoConfiguration.class, R2dbcAutoConfiguration.class},scanBasePackages = {"org.una.programmingiio.academichub"})
@@ -23,8 +22,9 @@ public class AcademichubApplication {
         ConfigurableApplicationContext context = SpringApplication.run(AcademichubApplication.class, args);
         GreetingClient greetingClient = context.getBean(GreetingClient.class);
         // Subscribe to the Mono to get the result asynchronously
-        greetingClient.getMessage().subscribe(message -> System.out.println(">> message = " + message));
+        //greetingClient.getMessage().subscribe(message -> System.out.println(">> message = " + message));
 
+        greetingClient.getMessages().subscribe(message -> System.out.println(">> message = " + message));
     }
 
 }

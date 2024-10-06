@@ -1,6 +1,7 @@
 package org.una.programmingiio.academichub.client;
 
 import org.una.programmingiio.academichub.dto.GreetingDto;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import org.springframework.http.MediaType;
@@ -23,6 +24,14 @@ public class GreetingClient {
         return this.client.get().uri("/hello").accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .bodyToMono(GreetingDto.class)
+                .map(GreetingDto::getMessage);
+    }
+
+    public Flux<String> getMessages() {
+        System.out.printf(">> Invoking GET /greetings%n");
+        return this.client.get().uri("/greetings").accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .bodyToFlux(GreetingDto.class)
                 .map(GreetingDto::getMessage);
     }
 
